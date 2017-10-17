@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
 import os
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
 from django.utils.encoding import smart_str
 import youtube_dl
-
+from django.http import HttpResponsePermanentRedirect
+from django.shortcuts import render
+from .forms import LinkForm
+from .models import Media
+from .tasks import convert
 
 # Create your views here.
 

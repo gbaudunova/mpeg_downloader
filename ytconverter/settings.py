@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'converter',
 ]
 
@@ -50,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ytconverter.urls'
+ROOT_URLCONF = 'youtube-mp3-converter.urls'
 
 TEMPLATES = [
     {
@@ -124,6 +127,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'converter/static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:**@127.0.0.1:5672//')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'amqp')
+CELERY_TASK_RESULT_EXPIRES = 7*86400
+CELERY_SEND_EVENTS = True
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'gbaudunova@gmail.com'
+EMAIL_HOST_PASSWORD = '860132bg'
+EMAIL_USE_TLS = True
 
 
 
