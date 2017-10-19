@@ -128,14 +128,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'converter/static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:**@127.0.0.1:5672//')
+BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:guest@127.0.0.1:5672//')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'amqp')
 CELERY_TASK_RESULT_EXPIRES = 7*86400
 CELERY_SEND_EVENTS = True
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ivanovaanna038@gmail.com'

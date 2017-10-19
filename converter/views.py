@@ -20,7 +20,7 @@ def index(request):
         url = request.POST['url']
         email = request.POST['email']
 
-        download(url, email)
+        download.delay(url, email)
 
     return render(request, 'index.html', {})
 
