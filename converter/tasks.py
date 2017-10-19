@@ -1,53 +1,60 @@
 from __future__ import unicode_literals
-import os
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.utils.encoding import smart_str
 import youtube_dl
 from celery import shared_task
 from django.core.mail import send_mail
-from django.core import mail
+from ytconverter import settings
 
 
-@shared.task()
-def download(request):
+
+
+@shared_task
+def download(url, email):
     def my_hook(d):
         if d['status'] == 'finished':
             print('Done downloading, now converting ...')
+
+
     ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': '%(id)s',
+        # 'format': 'bestaudio/best',
+        'outtmpl': settings.MEDIA_ROOT + '%(id)s',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
         'noplaylist': True,
         'progress_hooks': [my_hook],
     }
-    response = HttpResponseRedirect('/')
-    if 'url' in request.GET:
-        url = request.GET['url']
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            result = ydl.extract_info(url,download=False)
-            title = result.get('id', None)
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        result = ydl.extract_info(url, download=True)
+
+
+    mp3 = '{domain}{path}{filename}{format}'.format(
+        domain='http://127.0.0.1:8000',
+        path=settings.MEDIA_URL,
+        filename='77',
+        format='mp4.mp3')
+
+    send(mp3, email)
 
 
 
-    return response
+def send(mp3, email):
+    print(mp3)
+    print(email)
+    send_mail('Mp3 downloading',
+              '%s' % (mp3),
+              'ivanovaanna038@gmail.com',
+              [email])
+              # fail_silently=False)
 
-def send_mail(email):
-
-    title = 'mp3 downloading'
+    send()
 
 
-    message = '''
-                You downloaded - %s
-                your mp3 link is - %s
-            ''' % (url, generated_mp3)
 
-    send_mail(
-        'Title',
-        'Here is the message.',
-        settings.EMAIL_HOST_USER, [email],
-        fail_silently=False,
-    )
-
+    # user_email.attach_file('%s/audio/%s.mp3' % (STATIC_DIR, mp3))
+# if __name__ == "__main__":
+# # download = download(email, url)
 
 
 

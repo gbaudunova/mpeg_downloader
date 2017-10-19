@@ -7,19 +7,18 @@
     <title>
             Youtube mp3 converter
     </title>
-<link rel="stylesheet" href="{% static 'style.css.' %}">
+<link rel="stylesheet" href="{% static 'style.css' %}">
 
 </head>
 <body>
   <center>
-    <h1>Automated YouTube Converting and MP3 Download</h1>
+    <h1> MP3 Download via Email</h1>
   <div class="Page" id="untitled_page_page">
       <div>
-        <form name="" action="/download" method="get">
+        <form action="{% url 'converter:index'%}"  method="POST">{% csrf_token %}
         <input type="url" required class="form-control" name="url"
                placeholder="enter a valid youtube url" id="url-field">
         <br>
-            <form name="" action="/download" method="get">
         <input type="email" required class="form-control" name="email"
                placeholder="enter an email address" id="email-field">
         <br>

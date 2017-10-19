@@ -1,8 +1,7 @@
 from django import forms
 from . models import*
 
+class Meta:
+    model = Media
+    fields = "__all__"
 
-class SubscriberForm(forms.ModelForm):
-
-    class Meta:
-        fields = (url)

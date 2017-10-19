@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'youtube-mp3-converter.urls'
+ROOT_URLCONF = 'ytconverter.urls'
 
 TEMPLATES = [
     {
@@ -135,11 +135,13 @@ CELERY_SEND_EVENTS = True
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'gbaudunova@gmail.com'
-EMAIL_HOST_PASSWORD = '860132bg'
+EMAIL_HOST_USER = 'ivanovaanna038@gmail.com'
+EMAIL_HOST_PASSWORD = 'amina2004'
 EMAIL_USE_TLS = True
+
 
 
 
